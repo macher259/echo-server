@@ -1,5 +1,6 @@
 use std::process;
 use echo_server::ServerTCP;
+use tokio::signal;
 
 const HOSTNAME: &str = "localhost";
 const PORT: u16 = 2137;
@@ -11,5 +12,10 @@ async fn main() {
         process::exit(1);
     });
 
+    tokio::spawn(async {
+       signal::ctrl_c().await.expect("Failed to listen to ctrl-c.");
+        println!("Received QUIT signal.");
+        process::exit(0);
+    });
     server.run().await;
 }
