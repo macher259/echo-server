@@ -14,6 +14,7 @@ impl ServerTCP {
         let listener = TcpListener::bind((&address[..], port)).await?;
 
         println!("Started listening on {}.", address);
+        println!("Use ctrl+c to exit.");
 
         Ok(ServerTCP { listener })
     }
