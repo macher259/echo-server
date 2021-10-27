@@ -10,12 +10,8 @@ pub struct ServerTCP {
 }
 
 impl ServerTCP {
-    pub async fn new(mut address: String, port: u16) -> io::Result<ServerTCP> {
-        let port = port.to_string();
-        address.push(':');
-        address.push_str(port.as_str());
-
-        let listener = TcpListener::bind(&address).await?;
+    pub async fn new(address: String, port: u16) -> io::Result<ServerTCP> {
+        let listener = TcpListener::bind((&address[..], port)).await?;
 
         println!("Started listening on {}.", address);
 
